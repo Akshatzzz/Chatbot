@@ -39,6 +39,7 @@ import com.example.geminichatbot.ui.theme.PurpleChat
 fun ChatEditText(
     shouldUploadFromGallery: Boolean = false,
     shouldCaptureFromCamera: Boolean = false,
+    onClick : (String) -> Unit
 ) {
     var prompt by remember {
         mutableStateOf("")
@@ -96,7 +97,8 @@ fun ChatEditText(
             }
         }
         IconButton(onClick = {
-              /*TODO*/
+             onClick.invoke(prompt)
+            prompt = ""
         }) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.send_icon),
@@ -110,5 +112,5 @@ fun ChatEditText(
 @Preview
 @Composable
 private fun ViewChatEdit() {
-    ChatEditText(true, true)
+    ChatEditText(true, true,{})
 }

@@ -27,7 +27,7 @@ import com.example.geminichatbot.ui.theme.PurpleChatReply
 
 @Composable
 fun ConversationItem(
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     text: String,
     isReply: Boolean = false,
 ) {
@@ -40,7 +40,7 @@ fun ConversationItem(
     ) {
         Box(
             modifier = Modifier
-                .background(color = if(isReply) PurpleChatReply else PurpleChat, shape = RoundedCornerShape(10))
+                .background(color = if(isReply) PurpleChatReply else PurpleChat, shape = RoundedCornerShape(5))
                 .padding(8.dp)
                 .width(width)
         ){
