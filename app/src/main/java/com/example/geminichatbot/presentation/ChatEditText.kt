@@ -31,7 +31,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminichatbot.R
+import com.example.geminichatbot.data.TextualModelInputImpl
+import com.example.geminichatbot.domain.ConversationEvent
+import com.example.geminichatbot.domain.ConversationViewModel
 import com.example.geminichatbot.ui.theme.PurpleChat
 
 
@@ -39,11 +43,8 @@ import com.example.geminichatbot.ui.theme.PurpleChat
 fun ChatEditText(
     shouldUploadFromGallery: Boolean = false,
     shouldCaptureFromCamera: Boolean = false,
-    onClick : (String) -> Unit
+    viewModel: ConversationViewModel = hiltViewModel(),
 ) {
-    var prompt by remember {
-        mutableStateOf("")
-    }
     Row(
         modifier = Modifier
             .background(
@@ -55,21 +56,26 @@ fun ChatEditText(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TextField(
-            value = prompt, onValueChange = { prompt = it }, colors = TextFieldDefaults.colors(
+            value = viewModel.prompt.value,
+            onValueChange = { viewModel.onInputPromptUpdated(it) },
+            colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
-            ), placeholder = {
+            ),
+            placeholder = {
                 Text(
                     text = stringResource(id = R.string.hint),
                     color = Color.DarkGray,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
-            }, singleLine = false,
-            modifier = Modifier.weight(1f)
+            },
+            singleLine = false,
+            modifier = Modifier
+                .weight(1f)
                 .imePadding()
                 .statusBarsPadding()
                 .navigationBarsPadding()
@@ -97,8 +103,8 @@ fun ChatEditText(
             }
         }
         IconButton(onClick = {
-             onClick.invoke(prompt)
-            prompt = ""
+            viewModel.invoke(ConversationEvent.SendButtonClick(TextualModelInputImpl(viewModel.prompt.value)))
+            viewModel.onInputPromptUpdated("")
         }) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.send_icon),
@@ -107,10 +113,4 @@ fun ChatEditText(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun ViewChatEdit() {
-    ChatEditText(true, true,{})
 }
