@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminichatbot.R
+import com.example.geminichatbot.data.TextualContentChatModelInput
 import com.example.geminichatbot.data.TextualModelInputImpl
 import com.example.geminichatbot.domain.ConversationEvent
 import com.example.geminichatbot.domain.ConversationViewModel
@@ -97,7 +98,8 @@ fun ChatEditText(
             }
         }
         IconButton(onClick = {
-            viewModel.invoke(ConversationEvent.SendButtonClick(TextualModelInputImpl(viewModel.prompt.value)))
+            viewModel.invoke(ConversationEvent.SendButtonClick(TextualContentChatModelInput(
+                emptyList(),viewModel.prompt.value)))
             viewModel.onInputPromptUpdated("")
         }) {
             Icon(

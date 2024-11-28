@@ -25,6 +25,7 @@ private suspend fun getResponseFromModel(
 ): TextualModelResponseImpl? = withContext(
     Dispatchers.Default
 ) {
+    generativeModel.startChat()
     return@withContext generativeModel.generateContent(query).text?.let {
         TextualModelResponseImpl(
             it

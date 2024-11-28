@@ -14,11 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.geminichatbot.data.ChatContent
-import com.example.geminichatbot.data.TextualModelInputImpl
-import com.example.geminichatbot.domain.ConversationEvent
 import com.example.geminichatbot.domain.ConversationViewModel
-import com.example.geminichatbot.domain.ModelInput
 
 @Composable
 fun ChatContentScreen(

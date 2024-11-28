@@ -1,5 +1,6 @@
 package com.example.geminichatbot
 
+import com.example.geminichatbot.data.TextualAiContentChatRepository
 import com.example.geminichatbot.data.TextualAiContentRepository
 import com.example.geminichatbot.domain.AiRepository
 import dagger.Module
@@ -14,6 +15,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAiRepository(): AiRepository {
-        return TextualAiContentRepository()
+        return TextualAiContentChatRepository()
     }
 }
