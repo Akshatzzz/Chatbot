@@ -1,5 +1,6 @@
 [versions]
-agp = "8.4.0-alpha04"
+agp = "8.4.2"
+composeMarkdown = "0.2.6"
 generativeai = "0.1.2"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
@@ -9,9 +10,11 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
 composeBom = "2023.08.00"
+hiltVersion = "2.51.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -30,4 +33,6 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt = { id = 'com.google.dagger.hilt.android', version.ref = "hiltVersion" }
+kapt = { id = 'kotlin-kapt' }
 

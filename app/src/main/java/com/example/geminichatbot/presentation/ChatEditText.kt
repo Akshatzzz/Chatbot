@@ -17,10 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,21 +25,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.geminichatbot.R
-import com.example.geminichatbot.ui.theme.PurpleChat
+import com.example.geminichatbot.data.TextualModelInputImpl
+import com.example.geminichatbot.domain.ConversationEvent
+import com.example.geminichatbot.domain.ConversationViewModel
 
 
 @Composable
 fun ChatEditText(
     shouldUploadFromGallery: Boolean = false,
     shouldCaptureFromCamera: Boolean = false,
-    onClick : (String) -> Unit
+    viewModel: ConversationViewModel = hiltViewModel(),
 ) {
-    var prompt by remember {
-        mutableStateOf("")
-    }
     Row(
         modifier = Modifier
             .background(
@@ -55,21 +50,26 @@ fun ChatEditText(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         TextField(
-            value = prompt, onValueChange = { prompt = it }, colors = TextFieldDefaults.colors(
+            value = viewModel.prompt.value,
+            onValueChange = { viewModel.onInputPromptUpdated(it) },
+            colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
-            ), placeholder = {
+            ),
+            placeholder = {
                 Text(
                     text = stringResource(id = R.string.hint),
                     color = Color.DarkGray,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
-            }, singleLine = false,
-            modifier = Modifier.weight(1f)
+            },
+            singleLine = false,
+            modifier = Modifier
+                .weight(1f)
                 .imePadding()
                 .statusBarsPadding()
                 .navigationBarsPadding()
@@ -97,8 +97,8 @@ fun ChatEditText(
             }
         }
         IconButton(onClick = {
-             onClick.invoke(prompt)
-            prompt = ""
+            viewModel.invoke(ConversationEvent.SendButtonClick(TextualModelInputImpl(viewModel.prompt.value)))
+            viewModel.onInputPromptUpdated("")
         }) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.send_icon),
@@ -107,10 +107,4 @@ fun ChatEditText(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun ViewChatEdit() {
-    ChatEditText(true, true,{})
 }
